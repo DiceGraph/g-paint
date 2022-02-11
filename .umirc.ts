@@ -9,5 +9,5 @@ export default defineConfig({
   title: 'G Paint - An easy drawing board powered by @antv/g',
   hash: true,
   publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
-  outputPath: 'sites',
+  outputPath: 'docs',
 });
