@@ -65037,7 +65037,7 @@
         : Object(ie['render'])(t, n, r);
     }
     function Ie() {
-      var e = [{ path: '/', component: n('QeBL').default, exact: !0 }];
+      var e = [{ path: '/**', component: n('QeBL').default, exact: !0 }];
       return (
         i['a'].applyPlugins({
           key: 'patchRoutes',
