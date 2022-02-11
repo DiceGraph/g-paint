@@ -1,1 +1,0 @@
-type CanvasActions = Record<string,((...action: any) => void)>;
