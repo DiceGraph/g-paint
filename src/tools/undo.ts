@@ -1,9 +1,10 @@
 import { Canvas, Path } from '@antv/g';
 import { UndoOutlined } from '@ant-design/icons';
+import { CanvasActions } from '@/models/useCanvasAction';
 
 export default class UndoAction {
   static index = 3;
-  
+
   static title = 'Undo';
 
   static Icon = UndoOutlined;
@@ -14,20 +15,16 @@ export default class UndoAction {
 
   canvas: Canvas | null = null;
 
-  actions: CanvasActions | null =null;
+  actions: CanvasActions | null = null;
 
   constructor(canvas: Canvas, actions: CanvasActions) {
     this.canvas = canvas;
-    this.actions= actions;
+    this.actions = actions;
   }
 
   mount() {
-    this.actions?.undo()
+    this.actions?.undo();
   }
 
-  unmount() {
-    
-  }
+  unmount() {}
 }
-
-

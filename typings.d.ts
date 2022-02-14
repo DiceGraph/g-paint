@@ -11,8 +11,6 @@ declare module '*.svg' {
   export default url;
 }
 
-type CanvasActions = Record<string, (...action: any) => void>;
-
 type CanvasItem = {
   key: string;
   name: string;

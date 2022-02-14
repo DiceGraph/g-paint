@@ -1,11 +1,11 @@
-import { Canvas, Rect } from '@antv/g';
+import { Canvas } from '@antv/g';
 import { Renderer } from '@antv/g-canvas';
 import { useEffect, useRef } from 'react';
 import { useModel } from 'umi';
 import useDropImage from './useDropImage';
 
 export default function MainCanvas() {
-  const {setCanvas, setCanvasReady} = useModel('useCanvas');
+  const { setCanvas, setCanvasReady } = useModel('useCanvas');
   const el = useRef<HTMLDivElement | null>(null);
   useDropImage();
 
@@ -18,25 +18,31 @@ export default function MainCanvas() {
         container: element,
         renderer: new Renderer(),
         width,
-        height
-      })
-      // c.appendChild(new Rect({
-      //   style: {
-      //     width, height, fill: '#fff'
-      //   }
-      // }))
+        height,
+      });
       //@ts-ignore
-      window['__g_instances__'] = [c]
+      window['__g_instances__'] = [c];
       setCanvas(c);
-      
-      setCanvasReady(true)
+      setCanvasReady(true);
+      const resize = () => {
+        if (c) {
+          c.resize(element.clientWidth, element.clientHeight);
+        }
+      };
+      window.addEventListener('resize', resize);
     }
 
     return () => {
       setCanvas(undefined);
       setCanvasReady(false);
-    }
-  }, [el])
+    };
+  }, [el]);
 
-  return <div className='transparent-mask' style={{ width: '100%', height: '100%' }} ref={el}/>
+  return (
+    <div
+      className="transparent-mask"
+      style={{ width: '100%', height: '100%' }}
+      ref={el}
+    />
+  );
 }

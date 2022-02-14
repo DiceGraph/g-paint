@@ -25,6 +25,9 @@ export default class LineAction extends DrawAction {
 
   createModifyShape = (x: number, y: number, shape: Element) => {
     const start = this.flags.start;
-    shape.setAttribute('path', `M ${start[0]},${start[1]} L ${x},${y}`);
+    shape.setAttribute(
+      'path',
+      `M ${start[0]},${start[1]} l ${x - start[0]},${y - start[1]}`,
+    );
   };
 }

@@ -5,9 +5,7 @@ export default function useSelectItem() {
   const selectBoxRef = useRef<HTMLDivElement | null>(null);
   const resizeBoxRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    console.log(selectedItem);
-  }, [selectedItem]);
+  useEffect(() => {}, [selectedItem]);
 
   return {
     selectedItem,

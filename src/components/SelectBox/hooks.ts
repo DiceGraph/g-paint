@@ -1,29 +1,39 @@
-import { Element } from '@antv/g';
-import { useEffect, useState } from 'react';
+import { Element, ElementEvent } from '@antv/g';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 import { useModel } from 'umi';
 
-export default function SelectBox() {
-  const [display, setDisplay] = useState('none');
-  const { selectedItem, selectBoxRef } = useModel('useSelectItem');
-  const [bbox, setBBox] = useState<DOMRect | Record<string, number>>({});
+export const useMovingBox = ({
+  setDisplay,
+  setBBox,
+}: {
+  setDisplay: Dispatch<SetStateAction<string>>;
+  setBBox: Dispatch<SetStateAction<DOMRect | Record<string, number>>>;
+}) => {
+  const { selectedItem, selectBoxRef, setSelectedItem } =
+    useModel('useSelectItem');
+  const { changeItemAttrs } = useModel('useCanvasAction');
 
   useEffect(() => {
     const shape = selectedItem?.origin as Element;
     const element = selectBoxRef.current;
 
     if (shape && element) {
-      const box = shape.getBoundingClientRect();
+      let box = shape.getBoundingClientRect();
+      let oldAttr = shape.attributes;
       setDisplay('block');
       setBBox(box);
       const startPos = { allowFlag: 0 } as Record<string, number>;
 
       const events = {
         pointerdown: (event: PointerEvent) => {
+          box = shape.getBoundingClientRect();
+          oldAttr = { ...shape.attributes };
           startPos.allowFlag = 1;
           startPos.x = event.clientX;
           startPos.y = event.clientY;
           startPos.shapeX = shape.getAttribute('x');
           startPos.shapeY = shape.getAttribute('y');
+          element.style.cursor = 'grabbing';
         },
         pointermove: (event: PointerEvent) => {
           if (startPos.allowFlag === 1) {
@@ -33,7 +43,6 @@ export default function SelectBox() {
 
             nbox.top += deltaY;
             nbox.left += deltaX;
-
             shape.setAttribute('y', startPos.shapeY + deltaY);
             shape.setAttribute('x', startPos.shapeX + deltaX);
 
@@ -41,9 +50,15 @@ export default function SelectBox() {
           }
         },
         pointerup: () => {
+          changeItemAttrs(shape, oldAttr, shape.attributes);
           startPos.allowFlag = 0;
+          element.style.cursor = 'grab';
         },
       };
+
+      shape.addEventListener(ElementEvent.REMOVED, () =>
+        setSelectedItem(undefined),
+      );
 
       element.addEventListener('pointerdown', events.pointerdown);
       element.addEventListener('pointermove', events.pointermove);
@@ -57,35 +72,4 @@ export default function SelectBox() {
       };
     }
   }, [selectedItem]);
-
-  return (
-    <div
-      ref={selectBoxRef}
-      style={{
-        display,
-        position: 'absolute',
-        background: '#2f54eb10',
-        border: 'dashed #2f54eb 2px',
-        top: bbox.top - 2,
-        left: bbox.left - 2,
-        width: bbox.width + 4,
-        height: bbox.height + 4,
-        zIndex: 8,
-      }}
-    >
-      <div
-        style={{
-          position: 'absolute',
-          right: -4,
-          bottom: -4,
-          width: 8,
-          height: 8,
-          borderRadius: 8,
-          border: '4px solid #2f54eb',
-          background: 'white',
-          cursor: 'pointer',
-        }}
-      ></div>
-    </div>
-  );
-}
+};
