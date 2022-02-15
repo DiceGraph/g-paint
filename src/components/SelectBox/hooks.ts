@@ -102,8 +102,9 @@ const changeItemByDelta = (
 ) => {
   const xScale = (dx / ow + 1) * oldScale[0];
   const yScale = (dy / oh + 1) * oldScale[1];
+  const depatruredItem = item as any;
 
-  item.setLocalScale(xScale, yScale);
+  depatruredItem.setLocalScale(xScale, yScale);
 };
 
 export const useResizeBox = ({
@@ -116,7 +117,7 @@ export const useResizeBox = ({
   const { changeItemAttrs } = useModel('useCanvasAction');
 
   useEffect(() => {
-    const shape = selectedItem?.origin as Element;
+    const shape = selectedItem?.origin as any;
     const element = resizeBoxRef.current;
 
     if (shape && element) {

@@ -1,3 +1,4 @@
+import AtrributesPanel from '@/components/AttributesPanel/AttributesPanel';
 import DescriptionFooter from '@/components/DescriptionFooter';
 import LayerTreePad from '@/components/LayerTreePad';
 import SelectBox from '@/components/SelectBox/SelectBox';
@@ -13,6 +14,7 @@ export default function IndexPage() {
       <SelectBox />
       <ToolSidebar />
       <LayerTreePad />
+      <AtrributesPanel />
     </div>
   );
 }
