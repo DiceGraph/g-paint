@@ -18,7 +18,7 @@ export default class CircleAction extends DrawAction {
         ...(this.actions?.getAttrs() || {}),
         x: x,
         y: y,
-        r: 0
+        r: 0,
       },
     }) as Element;
   };
@@ -34,5 +34,6 @@ export default class CircleAction extends DrawAction {
     shape.setAttribute('r', r);
     shape.setAttribute('x', realx);
     shape.setAttribute('y', realy);
+    shape.setAttribute('origin', [-r, -r, 0]);
   };
 }

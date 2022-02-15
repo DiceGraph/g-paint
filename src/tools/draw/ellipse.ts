@@ -19,7 +19,7 @@ export default class EllipseAction extends DrawAction {
         x: x,
         y: y,
         rx: 0,
-        ry: 0
+        ry: 0,
       },
     }) as Element;
   };
@@ -31,10 +31,10 @@ export default class EllipseAction extends DrawAction {
     const height = Math.abs(y - sy);
     const realx = (sx + x) / 2;
     const realy = (sy + y) / 2;
-    const r = Math.sqrt(width ** 2 + height ** 2) / 2;
     shape.setAttribute('rx', width / 2);
     shape.setAttribute('ry', height / 2);
     shape.setAttribute('x', realx);
     shape.setAttribute('y', realy);
+    shape.setAttribute('origin', [-width / 2, -height / 2, 0]);
   };
 }

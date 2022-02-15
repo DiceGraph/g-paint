@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useModel } from 'umi';
-import { useMovingBox } from './hooks';
+import { useMovingBox, useResizeBox } from './hooks';
 
 export default function SelectBox() {
   const [display, setDisplay] = useState('none');
@@ -8,6 +8,7 @@ export default function SelectBox() {
   const [bbox, setBBox] = useState<DOMRect | Record<string, number>>({});
 
   useMovingBox({ setBBox, setDisplay });
+  useResizeBox({ setBBox });
 
   return (
     <div
@@ -33,10 +34,9 @@ export default function SelectBox() {
           bottom: -4,
           width: 8,
           height: 8,
-          borderRadius: 8,
-          border: '4px solid #2f54eb',
-          background: 'white',
-          cursor: 'pointer',
+          borderRadius: 12,
+          background: '#2f54eb',
+          cursor: 'nwse-resize',
         }}
       ></div>
     </div>
